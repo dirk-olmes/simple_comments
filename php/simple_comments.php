@@ -1,4 +1,15 @@
 <?php
+function get_slug()
+{
+    $slug = htmlspecialchars($_POST['Slug']);
+    if (empty($slug))
+    {
+        die('POST request did not include value for required key "Slug"');
+    }
+    // make sure that any '/' characters inside the slug does not create directories
+    return str_replace('/', '_', $slug);
+}
+
 function write_comment($filename, $author, $comment)
 {
     $date = date('Y-m-d H:i:s');
@@ -33,14 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
     require 'config.inc.php';
 
-    $slug = htmlspecialchars($_POST['Slug']);
-    if (empty($slug))
-    {
-        die('POST request did not include value for required key "Slug"');
-    }
-    // make sure that any '/' characters inside the slug does not create directories
-    $slug = str_replace('/', '_', $slug);
-
+    $slug = get_slug();
     $author = htmlspecialchars($_POST['Author']);
     $comment = htmlspecialchars($_POST['Comment']);
 
