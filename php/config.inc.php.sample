@@ -1,0 +1,9 @@
+<?php
+// The path where your comments are stored. Note that this folder must exist and be
+// writeable for the user that runs your web server.
+$comment_dir = '/var/blog/comments';
+
+// Recipient of eMail notifications. Leave empty to turn off notifications.
+$recipient = 'me@my-domain.com';
+?>
+

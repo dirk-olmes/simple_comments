@@ -8,10 +8,10 @@ Usage
 
 Enable this plugin in your `pelicanconf.py` like this
 
-    PLUGIN_PATH = '/path/to/checkou/of/simple_comments'
+    PLUGIN_PATH = '/path/to/checkout/of/simple_comments'
     PLUGINS = [ 'simple_comments' ]
 
-Configure the location of your comments folder in your `pelicanconf.py`
+Configure the location of your comments folder in your `pelicanconf.py`. If you use just a folder name here, the path will be relative to your `pelicanconf.py`.
 
     COMMENT_PATH = '/path/to/your/comments'
 
@@ -48,4 +48,6 @@ Each blog post begins with metadata, followed by an empty line and finally the c
 
 Creating comments
 -----------------
-The plugin doesn't care how comments are created as long as they follow the directory structure and file format specified above.
+The plugin doesn't care how comments are created as long as they follow the directory structure and file format specified above. Note especially the date format used - the plugin expects exactly this format.
+
+I use a simple php script (see the `php` folder) to create the comments but any other means will do, too.
