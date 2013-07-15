@@ -1,7 +1,7 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
-    $comment_dir = '/tmp';
+    require 'config.inc.php';
 
     $slug = htmlspecialchars($_POST['Slug']);
     if (empty($slug))
