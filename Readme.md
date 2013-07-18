@@ -51,3 +51,7 @@ Creating comments
 The plugin doesn't care how comments are created as long as they follow the directory structure and file format specified above. Note especially the date format used - the plugin expects exactly this format.
 
 I use a simple php script (see the `php` folder) to create the comments but any other means will do, too.
+
+Turning off comments
+--------------------
+The plugin adds an `allowcomments` key to each article's metadata. As comments are enabled by default, its value is `True`. If you want to turn off comments for a certain article, specify `AllowComments` with value `False` in the article's metadata.

@@ -28,6 +28,7 @@ def read_comments(content):
     read_comments_for_article(content)
 
 def read_comments_for_article(article):
+    init_metadata(article)
     article_path = os.path.join(comment_path, article.slug)
     if not os.path.exists(article_path):
         return
@@ -38,6 +39,13 @@ def read_comments_for_article(article):
             comments.append(comment)
         comments.sort()
         article.comments = comments
+
+def init_metadata(article):
+    if article.metadata.has_key('allowcomments'):
+        value = article.metadata['allowcomments'].lower()
+        article.metadata['allowcomments'] = value in ('true', 'yes', '1')
+    else:
+        article.metadata['allowcomments'] = True
 
 def read_comment(path, filename, article):
     comment_file = os.path.join(path, filename)
