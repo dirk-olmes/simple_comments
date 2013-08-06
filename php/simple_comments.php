@@ -10,6 +10,34 @@ function get_slug()
     return str_replace('/', '_', $slug);
 }
 
+function verify_captcha($captcha_db, $slug)
+{
+    $challenge = htmlspecialchars($_POST['Challenge']);
+    if (empty($challenge))
+    {
+        die('empty challenge');
+    }
+
+    $handle = fopen($captcha_db, 'r');
+    $line = fgets($handle);
+    while ($line)
+    {
+        $elements = explode("\t", $line);   // the double quotes are required here ...
+        if ($elements[0] == $slug)
+        {
+            $response = trim($elements[1]);
+            if ($challenge != $response)
+            {
+                die('wrong challenge');
+            }
+            break;
+        }
+
+        $line = fgets($handle);
+    }
+    fclose($handle);
+}
+
 function write_comment($filename, $author, $comment)
 {
     $date = date('Y-m-d H:i:s');
@@ -45,6 +73,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     require 'config.inc.php';
 
     $slug = get_slug();
+
+    if (isset($verify_captcha) && $verify_captcha)
+    {
+        verify_captcha($captcha_db, $slug);
+    }
+
     $author = htmlspecialchars($_POST['Author']);
     $comment = htmlspecialchars($_POST['Comment']);
 
@@ -56,7 +90,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
     $filename = $dir . '/' . uniqid();
     write_comment($filename, $author, $comment);
-    send_email_notification($filename, $recipient);
+    if (isset($recipient))
+    {
+        send_email_notification($filename, $recipient);
+    }
 ?>
 
 <html>

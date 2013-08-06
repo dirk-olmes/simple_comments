@@ -48,10 +48,33 @@ Each blog post begins with metadata, followed by an empty line and finally the c
 
 Creating comments
 -----------------
+
 The plugin doesn't care how comments are created as long as they follow the directory structure and file format specified above. Note especially the date format used - the plugin expects exactly this format.
 
-I use a simple php script (see the `php` folder) to create the comments but any other means will do, too.
+I use a simple PHP script (see the `php` folder) to create the comments but any other means will do, too.
 
 Turning off comments
 --------------------
+
 The plugin adds an `allowcomments` key to each article's metadata. As comments are enabled by default, its value is `True`. If you want to turn off comments for a certain article, specify `AllowComments` with value `False` in the article's metadata.
+
+Captchas
+========
+
+To provide some safety against comment spam this repository contains another plugin, `pelicaptcha`. It generates a captcha image along with each article and a file named `captchas` that contains each article's slug and the challenge that was used to generate the image separated by a tab character.
+
+You should generate the captcha image into each page, like this:
+
+    <form action="http://...." method="POST">
+        <input type="hidden" name="Slug" value="{{ article.slug }}">
+        Captcha: <img src="{{ SITEURL }}/{{ article.slug }}.jpg">
+        <input type="text" name="Challenge">
+    </form>
+
+The script that's used to store the comment can then validate the comment:
+
+1. extract the `Challenge` and `Slug` request parameters
+1. read through the `captchas` file searching for the matching slug
+1. compare the `Challenge` request parameter with the slug from the file
+
+The simple PHP script (in the `php` folder) shows an example of the validation.
