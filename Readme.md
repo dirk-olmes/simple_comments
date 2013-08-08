@@ -63,6 +63,14 @@ Captchas
 
 To provide some safety against comment spam this repository contains another plugin, `pelicaptcha`. It generates a captcha image along with each article and a file named `captchas` that contains each article's slug and the challenge that was used to generate the image separated by a tab character.
 
+Dependencies
+------------
+
+This plugin depends on `wheezy.captcha` (which in turn depends on `PIL`). Make sure you install both modules before using the plugin.
+
+Usage
+-----
+
 You should generate the captcha image into each page, like this:
 
     <form action="http://...." method="POST">
