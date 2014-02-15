@@ -7,7 +7,6 @@ A pelican plugin to read comments from files in the filesystem.
 """
 
 import codecs
-from datetime import datetime
 import os
 import os.path
 from pelican import contents, signals
