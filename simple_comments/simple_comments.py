@@ -21,7 +21,7 @@ def initialized(pelican):
             base_path = pelican.settings['PATH']
             comment_path = os.path.join(base_path, comment_path)
 
-def read_comments(content):
+def read_comments_for_content(content):
     if isinstance(content, contents.Static):
         return
     read_comments_for_article(content)
@@ -31,13 +31,10 @@ def read_comments_for_article(article):
     article_path = os.path.join(comment_path, article.slug)
     if not os.path.exists(article_path):
         return
-    comments = []
-    for path, _, comment_files in os.walk(article_path):
-        for comment_file in comment_files:
-            comment = read_comment(path, comment_file, article)
-            comments.append(comment)
-        comments.sort()
-        article.comments = comments
+    comments = read_comments(article_path)
+    sort_function = lambda dict: dict['Date']
+    comments.sort(key=sort_function)
+    article.comments = comments
 
 def init_metadata(article):
     if article.metadata.has_key('allowcomments'):
@@ -46,7 +43,15 @@ def init_metadata(article):
     else:
         article.metadata['allowcomments'] = True
 
-def read_comment(path, filename, article):
+def read_comments(article_path):
+    comments = []
+    for path, _, comment_files in os.walk(article_path):
+        for comment_file in comment_files:
+            comment = read_comment(path, comment_file)
+            comments.append(comment)
+    return comments
+
+def read_comment(path, filename):
     comment_file = os.path.join(path, filename)
     comment, text = read_metadata_and_text(comment_file)
     comment['text'] = text
@@ -71,4 +76,4 @@ def read_metadata_and_text(comment_file):
 
 def register():
     signals.initialized.connect(initialized)
-    signals.content_object_init.connect(read_comments)
+    signals.content_object_init.connect(read_comments_for_content)
