@@ -1,1 +1,1 @@
-from pelicaptcha import *
+from .pelicaptcha import *

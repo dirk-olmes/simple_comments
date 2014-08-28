@@ -1,1 +1,1 @@
-from simple_comments import *
+from .simple_comments import *
