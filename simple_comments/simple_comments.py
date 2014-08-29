@@ -15,7 +15,7 @@ comment_path = None
 
 def initialized(pelican):
     global comment_path
-    if pelican.settings.has_key('COMMENT_PATH'):
+    if 'COMMENT_PATH' in pelican.settings:
         comment_path = pelican.settings['COMMENT_PATH']
         if not os.path.isabs(comment_path):
             base_path = pelican.settings['PATH']
@@ -37,7 +37,7 @@ def read_comments_for_article(article):
     article.comments = comments
 
 def init_metadata(article):
-    if article.metadata.has_key('allowcomments'):
+    if 'allowcomments' in article.metadata:
         value = article.metadata['allowcomments'].lower()
         article.metadata['allowcomments'] = value in ('true', 'yes', '1')
     else:
