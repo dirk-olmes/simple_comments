@@ -8,7 +8,7 @@ Usage
 
 Enable this plugin in your `pelicanconf.py` like this
 
-    PLUGIN_PATH = '/path/to/checkout/of/simple_comments'
+    PLUGIN_PATHS = [ '/path/to/checkout/of/simple_comments' ]
     PLUGINS = [ 'simple_comments' ]
 
 Configure the location of your comments folder in your `pelicanconf.py`. If you use just a folder name here, the path will be relative to your `pelicanconf.py`.
